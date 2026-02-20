@@ -1,45 +1,57 @@
 # Prism Knowledge Base
 
-**Welcome to the Prism product knowledge base** — where we practice what we preach.
-
-This repository contains all product planning, architecture, decisions, and team knowledge for building Prism. It's structured using our own **Product Workspace** template and queried via Prism itself.
-
-## What is Prism?
-
-**Mission:** GitHub as an OS for any business — no coding required.
-
-Prism is the UX layer that makes GitHub accessible to everyone, transforming it into an AI-powered workspace for business knowledge. You shouldn't have to be a developer to live on GitHub.
-
-## Repository Structure
-
-```
-prism-knowledge/
-├── vision/              # Mission, north star, strategic direction
-├── product/             # Product planning artifacts
-│   ├── briefs/          # Product briefs (from BMAD Analyst)
-│   ├── prds/            # Product requirements (from BMAD PM)
-│   ├── epics/           # Epic breakdowns (from BMAD PM)
-│   └── architecture/    # Architecture docs (from BMAD Architect)
-├── decisions/           # Decision log (ADRs, key choices)
-├── team/                # Team roster, roles, contact info
-└── processes/           # How we work (BMAD + Agent OS workflow)
-```
-
-## How We Use This
-
-1. **Planning**: BMAD agents (Analyst → PM → Architect) produce artifacts that live here
-2. **Querying**: We connect this repo to Prism and use it to query our own product knowledge
-3. **Building**: Story files reference these docs; Dev agents read them via Prism
-4. **Dog-fooding**: This repo validates that Prism works for the exact use case we're selling
-
-## Quick Links
-
-- [Mission & Vision](./vision/mission.md)
-- [Current PRD: Frictionless Onboarding](./product/prds/frictionless-onboarding.md)
-- [Decision Log](./decisions/decision-log.md)
-- [How We Work](./processes/how-we-work.md)
-- [Team](./team/team.md)
+**Repository:** `cruz-bot/prism-knowledge`  
+**Purpose:** Canonical location for Prism planning documentation and BMAD workflow artifacts  
+**Dogfooding:** We practice what we preach — using GitHub as a knowledge base, just like our users will  
 
 ---
 
-**Built with Prism. For Prism.**
+## What's Here
+
+### `/planning/` - BMAD Planning Artifacts
+All artifacts from the BMAD (Build → Measure → Architect → Deploy) workflow:
+- **Product Brief** - Vision, problem statement, personas, user journeys, North Star metrics
+- **PRD** - Requirements, NFRs (non-functional requirements), success criteria
+- **Epics** - High-level feature groupings with acceptance criteria
+- **Architecture** - System design, technical decisions, ADRs
+
+### `/standards/` - AgentOS Standards
+Discovered standards from the AgentOS standards engine:
+- **Prism Standards** - Code patterns, conventions, quality gates specific to Prism
+
+### `/docs/` - Workflow Documentation
+Process and methodology docs:
+- **BMAD→Linear→GitHub Flow** - The canonical workflow for how planning → development → dogfooding works
+
+---
+
+## Philosophy
+
+**GitHub as Operating System:** We're building Prism to make GitHub accessible to non-technical users. We dogfood our own product by storing all our planning docs here.
+
+**Linear as System of Record:** Active development work tracked in Linear (issues, sprints, progress). GitHub = code repo + knowledge base.
+
+**BMAD Workflow:** Analyst → PM → Architect → Implementation Readiness → SM → Dev → QA. All planning artifacts flow here, then into Linear, then into code.
+
+---
+
+## Auto-Sync
+
+This repository is automatically synced from the CruzBot workspace:
+- **Script:** `D:\backups\sync-prism-knowledge.ps1`
+- **Schedule:** Daily at 3:00 AM CST (as part of backup automation)
+- **Source:** `C:\Users\cruzb\.openclaw\workspace\_bmad-output\planning-artifacts\`
+
+Manual sync: Run `D:\backups\sync-prism-knowledge.ps1` anytime.
+
+---
+
+## Contributing
+
+This repo is auto-maintained by CruzBot 💠 as part of the development workflow. Changes should originate from BMAD workflow runs in the main workspace.
+
+**Questions?** See `docs/bmad-linear-flow.md` for the full development process.
+
+---
+
+Built with discipline. Shipped with velocity. 🚀
