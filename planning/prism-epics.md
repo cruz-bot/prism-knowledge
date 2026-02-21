@@ -63,6 +63,30 @@ This document breaks down the "Frictionless Onboarding: GitHub for Everyone" fea
 *   **Then** all data operations correctly use the new Prisma-based persistence layer.
 *   **And** the old persistence layer code is removed.
 
+**Story 1.4: Encrypt Sensitive Data at Rest**
+*As a* security-conscious developer,
+*I want* to ensure that all sensitive data, such as third-party API keys, is encrypted before being stored in the database,
+*So that* even if the database is compromised, the sensitive credentials remain protected and confidential.
+
+**Acceptance Criteria:**
+*   **Given** the encryption utility is implemented,
+*   **When** sensitive data (e.g., an API key) is written to the database,
+*   **Then** it is stored as an encrypted string using AES-256-GCM.
+*   **And** the decryption function successfully recovers the original plaintext when provided with the correct key.
+*   **And** tests verify that encrypted data cannot be decrypted with an incorrect key.
+
+**Story 1.5: Role-Based Access Control (RBAC)**
+*As an* administrator,
+*I want* the ability to restrict access to certain sensitive API endpoints to specific user roles,
+*So that* I can enforce the principle of least privilege and ensure that only authorized personnel can perform administrative actions.
+
+**Acceptance Criteria:**
+*   **Given** a user with the 'USER' role,
+*   **When** they attempt to access an admin-only endpoint,
+*   **Then** they receive a 403 Forbidden error.
+*   **And** a user with the 'ADMIN' role can successfully access the same endpoint.
+*   **And** tests verify RBAC logic for both authorized and unauthorized access.
+
 ---
 
 ## Epic 2: Welcome & GitHub Setup (Type B Entry)
@@ -93,6 +117,18 @@ This document breaks down the "Frictionless Onboarding: GitHub for Everyone" fea
 *   **Then** the `GitHubAuthFlow.tsx` component is displayed and initiates the Device Flow.
 *   **And** the UI provides a clear link and instructions for users who need to create a GitHub account first.
 *   **And** upon successful authentication, the wizard automatically proceeds to the next step.
+
+**Story 2.3: Select GitHub Repository for Template Setup**
+*As a* developer who has just connected my GitHub account,
+*I want* to see a list of my repositories,
+*So that* I can select one to use as the source for my first Prism workspace template.
+
+**Acceptance Criteria:**
+*   **Given** a user has connected their GitHub account,
+*   **When** they navigate to the repository selection page,
+*   **Then** a list of their GitHub repositories is displayed.
+*   **And** they can select one repository from the list.
+*   **And** upon selection, they are advanced to the next step of onboarding.
 
 ---
 
@@ -125,6 +161,18 @@ This document breaks down the "Frictionless Onboarding: GitHub for Everyone" fea
 *   **And** a new `Source` is created in the Prism database.
 *   **And** the API returns a success status and the new workspace URL.
 *   **And** the P95 latency for the entire operation is under 5 seconds.
+
+**Story 3.3: Index GitHub Repository Structure**
+*As a* developer who has selected a source repository,
+*I want* Prism to index the file structure of that repository,
+*So that* it can be saved as a reusable workspace template.
+
+**Acceptance Criteria:**
+*   **Given** a user has selected a GitHub repository,
+*   **When** the indexing process is triggered,
+*   **Then** the repository's file structure is fetched via the GitHub API.
+*   **And** the structure is saved as a WorkspaceTemplate in the database.
+*   **And** the user receives feedback that indexing has started.
 
 ---
 
@@ -186,3 +234,15 @@ This document breaks down the "Frictionless Onboarding: GitHub for Everyone" fea
 *   **When** a non-technical test user reviews the complete flow,
 *   **Then** they report no points of confusion related to technical jargon (e.g., "repository," "commit," "main branch").
 *   **And** all copy has been updated based on this feedback to use simpler analogues (e.g., "workspace," "save," "main version").
+
+**Story 5.2: Code-level Documentation and Logging Audit**
+*As a* developer onboarding to the Prism codebase,
+*I want* all code comments, inline documentation, and logged messages to be clear, accurate, and consistent,
+*So that* I can understand the code's intent and debug issues more effectively.
+
+**Acceptance Criteria:**
+*   **Given** the codebase audit is complete,
+*   **When** a developer reviews critical functions,
+*   **Then** they find clear TSDoc documentation.
+*   **And** log messages follow a consistent, standardized format.
+*   **And** CONTRIBUTING.md documents the standards for future code.
