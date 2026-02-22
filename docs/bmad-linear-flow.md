@@ -1,12 +1,16 @@
-# BMAD → Linear → GitHub Flow
+# Canon: The Canonical Flow
+
+**aka:** BMAD → Linear → GitHub Flow
 
 **System of Record:** Linear (for active development work)  
 **Code Repository:** GitHub (practicing what we preach for Prism)  
 **Planning Artifacts:** `_bmad-output/` (source documents for Linear issues)
 
+**What is Canon?** The right way. The full track. BMAD → AgentOS → Linear → Dev → PR → Merge.
+
 ---
 
-## The Flow (Non-Negotiable)
+## Canon: The Full Track (Non-Negotiable)
 
 ### **Phase 1: Planning (BMAD)**
 
