@@ -1,57 +1,68 @@
-# Prism Knowledge Base
+# Prism Demo Knowledge Base — Nexus
 
-**Repository:** `cruz-bot/prism-knowledge`  
-**Purpose:** Canonical location for Prism planning documentation and BMAD workflow artifacts  
-**Dogfooding:** We practice what we preach — using GitHub as a knowledge base, just like our users will  
+This repository is a **demo knowledge base** for [Prism](https://github.com/VTOR-Tech/knowledgebase-console), showcasing how product teams can organize and explore their product knowledge using Prism's AI-powered features.
 
+## What's Inside
+
+The content simulates a fictional SaaS product called **Nexus** — a developer collaboration platform. All content is fictional and designed to exercise every Prism feature.
+
+### Directory Structure
+
+```
+├── roadmap/                    # Release plans (R1, R2, R3)
+├── narratives/                 # Vision, architecture, user journey, competitive analysis
+├── backlog/                    # Capability specs with strategic roles and priorities
+├── discovery/                  # Research, technical spikes, explorations
+├── executive-briefings/        # Quarterly reports and board updates
+└── assets/                     # Architecture diagrams and visual assets
+```
+
+### Content Overview
+
+| Directory | Files | Description |
+|-----------|-------|-------------|
+| `roadmap/` | 3 | Three releases: Foundation (complete), Collaboration (in-progress), Intelligence (draft) |
+| `narratives/` | 4 | Product vision, architecture overview, user journey (5 stages), competitive landscape |
+| `backlog/` | 7 | Capabilities with strategic roles: Core, Differentiating, Bet, Defer |
+| `discovery/` | 3 | User research interviews, WebSocket technical spike, API design exploration |
+| `executive-briefings/` | 2 | Q1 2025 status report, February board update |
+| `assets/` | 1 | System architecture diagram description |
+
+### Prism Features Exercised
+
+- **Knowledge Graph** — 7 items, 3 releases, 5 journey stages, 30+ relationships via frontmatter
+- **Ask (AI Search)** — Rich, varied content across 6 categories for semantic search
+- **Document Explorer** — 20 documents organized in 6 directories
+- **Strategic Views** — Backlog items tagged with Core/Differentiating/Bet/Defer roles
+- **Journey Stages** — User journey mapped across 5 stages with capability-to-stage mapping
+- **Citations** — Detailed narratives with specific sections for AI to cite
+- **Executive Briefings** — Persona-tagged briefing documents
+
+## Connecting to Prism
+
+1. Open Prism (`knowledgebase-console`)
+2. Go to **Settings → Sources**
+3. Add this repository as a Git source:
+   ```
+   https://github.com/cruz-bot/prism-knowledge.git
+   ```
+4. Prism will ingest all markdown files, extract frontmatter, and build the knowledge graph
+5. Explore via Ask, Document Explorer, or Knowledge Graph views
+
+## Frontmatter Schema
+
+All documents use Prism's `BaseFrontmatterSchema`. Required fields:
+
+```yaml
 ---
-
-## What's Here
-
-### `/planning/` - BMAD Planning Artifacts
-All artifacts from the BMAD (Build → Measure → Architect → Deploy) workflow:
-- **Product Brief** - Vision, problem statement, personas, user journeys, North Star metrics
-- **PRD** - Requirements, NFRs (non-functional requirements), success criteria
-- **Epics** - High-level feature groupings with acceptance criteria
-- **Architecture** - System design, technical decisions, ADRs
-
-### `/standards/` - AgentOS Standards
-Discovered standards from the AgentOS standards engine:
-- **Prism Standards** - Code patterns, conventions, quality gates specific to Prism
-
-### `/docs/` - Workflow Documentation
-Process and methodology docs:
-- **BMAD→Linear→GitHub Flow** - The canonical workflow for how planning → development → dogfooding works
-
+title: "Document Title"
+type: canonical | exploratory
+category: roadmap | narrative | discovery | backlog | asset | exec_briefing
 ---
+```
 
-## Philosophy
+See individual documents for category-specific fields like `release`, `strategic_role`, `priority`, `journey_phases`, `persona`, and `briefing_date`.
 
-**GitHub as Operating System:** We're building Prism to make GitHub accessible to non-technical users. We dogfood our own product by storing all our planning docs here.
+## License
 
-**Linear as System of Record:** Active development work tracked in Linear (issues, sprints, progress). GitHub = code repo + knowledge base.
-
-**BMAD Workflow:** Analyst → PM → Architect → Implementation Readiness → SM → Dev → QA. All planning artifacts flow here, then into Linear, then into code.
-
----
-
-## Auto-Sync
-
-This repository is automatically synced from the CruzBot workspace:
-- **Script:** `D:\backups\sync-prism-knowledge.ps1`
-- **Schedule:** Daily at 3:00 AM CST (as part of backup automation)
-- **Source:** `C:\Users\cruzb\.openclaw\workspace\_bmad-output\planning-artifacts\`
-
-Manual sync: Run `D:\backups\sync-prism-knowledge.ps1` anytime.
-
----
-
-## Contributing
-
-This repo is auto-maintained by CruzBot 💠 as part of the development workflow. Changes should originate from BMAD workflow runs in the main workspace.
-
-**Questions?** See `docs/bmad-linear-flow.md` for the full development process.
-
----
-
-Built with discipline. Shipped with velocity. 🚀
+This demo content is part of the Prism project. See the main repository for license details.
