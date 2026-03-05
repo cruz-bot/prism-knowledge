@@ -1,42 +1,23 @@
 # Canon: The Canonical Flow
 
-**aka:** Single-Agent Pipeline → Linear → GitHub Flow  
-**Updated:** 2026-03-03 — Single-Agent-First architecture
+**aka:** BMAD → Linear → GitHub Flow
 
 **System of Record:** Linear (for active development work)  
-**Code Repository:** GitHub  
-**Phase Artifacts:** `agents/pm-{slug}/stories/` (written inline per session)
+**Code Repository:** GitHub (practicing what we preach for Prism)  
+**Planning Artifacts:** `_bmad-output/` (source documents for Linear issues)
 
-**What is Canon?** One pm-agent session runs all phases. The only separate spawn is PR Review.
+**What is Canon?** The right way. The full track. BMAD → AgentOS → Linear → Dev → PR → Merge.
 
 ---
 
-## Canon: The Full Track (Single-Agent-First)
+## Canon: The Full Track (Non-Negotiable)
 
-All phases run inline within one pm-agent session:
+### **Phase 1: Planning (BMAD)**
 
-### **Phase 1: Analyst (inline)**
-Write `stories/analyst-{id}.md` — problem, context, constraints, why now
-
-### **Phase 2: PM (inline)**
-Write `stories/story-{id}.md` — ACs, scope, done criteria, file list, Linear update → In Dev
-
-### **Phase 3: Architect (inline)**
-Write `stories/arch-{id}.md` — design decisions, tradeoffs, risks, patterns
-
-### **Phase 4: Dev (inline)**
-Implement code + tests, following the story file exactly
-
-### **Phase 5: QA (inline)**
-Run tests, verify all ACs, self-review
-
-### **Phase 6: PR**
-`git push` + `gh pr create` + Linear → In Review + notify COO
-
-### **Phase 7: PR Review (separate spawn)**
-PR Reviewer spawned by COO (T1/opus) — fresh adversarial context
-
-**Implementation Readiness Gate** (verify story file is complete before Step 4)
+1. **Analyst** → Product Brief (`_bmad-output/planning-artifacts/`)
+2. **PM** → PRD + Epics (`_bmad-output/planning-artifacts/`)
+3. **Architect** → Architecture Doc (`_bmad-output/planning-artifacts/`)
+4. **Implementation Readiness Gate** (verify architecture is complete)
 
 **Artifacts stay in `_bmad-output/` as source documents.**
 
