@@ -2,24 +2,28 @@
 
 **aka:** BMAD → Linear → GitHub Flow
 
-**System of Record:** Linear (for active development work)  
-**Code Repository:** GitHub (practicing what we preach for Prism)  
-**Planning Artifacts:** `_bmad-output/` (source documents for Linear issues)
+**System of Record:** Linear (for active development work)
+**Code Repository:** GitHub (practicing what we preach for Prism)
+**Planning Artifacts:** `_bmad-output/` (temporary — pushed to Linear, then deleted locally)
 
 **What is Canon?** The right way. The full track. BMAD → AgentOS → Linear → Dev → PR → Merge.
+
+> **Single-Agent Execution (current architecture):** All BMAD phases (Analyst → PM → Architect → SM → Dev → QA) run inline within a single pe-agent session. Phases are file-artifact checkpoints, not agent boundaries. Only the PR Reviewer spawns as a separate agent. See `os/canon/CANON.md` for the full tier/spawn reference.
 
 ---
 
 ## Canon: The Full Track (Non-Negotiable)
 
-### **Phase 1: Planning (BMAD)**
+### **Phase 1: Planning (BMAD — inline in pe-agent session)**
 
-1. **Analyst** → Product Brief (`_bmad-output/planning-artifacts/`)
-2. **PM** → PRD + Epics (`_bmad-output/planning-artifacts/`)
-3. **Architect** → Architecture Doc (`_bmad-output/planning-artifacts/`)
-4. **Implementation Readiness Gate** (verify architecture is complete)
+All planning phases run within a single pe-agent session. No separate phase agents.
 
-**Artifacts stay in `_bmad-output/` as source documents.**
+1. **Analyst phase** → Write `stories/analyst-{id}.md` (problem, context, constraints)
+2. **PM phase** → Write `stories/story-{id}.md` (PRD, ACs, scope, done criteria)
+3. **Architect phase** → Write `stories/arch-{id}.md` (design decisions, tradeoffs, risks)
+4. **Implementation Readiness Gate** (verify ACs are clear and scope is bounded)
+
+**Artifacts written to disk at each phase boundary — the file IS the checkpoint.**
 
 ---
 
@@ -40,27 +44,33 @@
 
 ### **Phase 3: Linear Issue Creation (THIS IS WHERE I WAS BROKEN)**
 
-6. **Parse story files** → Create Linear issues
-   - Script: `scripts/bmad-to-linear.js`
-   - One Linear issue per story
+6. **Push FULL artifact content to Linear** → Create Linear issues with complete story content
+   - Script: `scripts/bmad-to-linear.js <epics-file> <ProjectName> --delete-after-push`
+   - One Linear issue per story — **full artifact content** in the description (not summaries)
    - Epic-level issues created first (parent issues)
    - Story-level issues linked to epic parents
    - **All metadata preserved:**
      - Epic relationship
-     - Acceptance criteria in description
-     - Labels (epic name, BMAD workflow)
-     - Links back to story files
+     - Full user story + acceptance criteria in description
+     - Technical notes and standards applied
+   - **After successful push: local artifact files are deleted** — Linear is now the only copy
 
-7. **Linear becomes source of truth** for active work
-   - Developers work from Linear issues
+7. **Linear IS the source of truth** for active work
+   - Developers fetch stories from Linear at spawn time (NOT from disk)
+   - Fetch command: `node scripts/ops/fetch-linear-story.js CRU-XXX`
    - Issue status tracked in Linear
    - PRs reference Linear issue IDs
+   - **NEVER read `_bmad-output/` story files** — they may not exist after push
 
 ---
 
 ### **Phase 4: Development (GitHub)**
 
-8. **Dev work** (always start with `/inject-standards`)
+8. **Dev work** (always start with fetching story from Linear)
+   ```bash
+   node scripts/ops/fetch-linear-story.js CRU-XX   # get your story — Linear is source of truth
+   /inject-standards                                 # load coding standards
+   ```
    - Create branch from Linear issue: `feature/CRU-XX-description`
    - Commit referencing Linear: `git commit -m "CRU-XX: Implement feature"`
    - PR title: `[CRU-XX] Feature description`
@@ -118,25 +128,39 @@ Epic (Parent Issue)
 ## Scripts Required
 
 ### `scripts/bmad-to-linear.js`
-**Purpose:** Parse BMAD epics/stories and create Linear issues
+**Purpose:** Parse BMAD epics/stories and push FULL artifact content to Linear as ticket descriptions
 
 **Usage:**
 ```bash
-node scripts/bmad-to-linear.js <epics-file> <project-name>
+node scripts/bmad-to-linear.js <epics-file> <project-name> [--delete-after-push]
 ```
 
 **What it does:**
 1. Parse epics markdown file
 2. For each epic:
    - Create parent Linear issue (Epic-level)
-   - Set project (e.g., "Prism")
-   - Add labels
+   - Push **full epic artifact content** as the ticket description
 3. For each story in epic:
-   - Create child Linear issue
-   - Link to parent epic
-   - Set acceptance criteria in description
-   - Add story file reference
+   - Create child Linear issue linked to parent epic
+   - Push **full story artifact content** (user story + ACs + technical notes) as ticket description
 4. Output summary of created issues
+5. With `--delete-after-push`: deletes local artifact files — Linear is now the only copy
+
+### `scripts/ops/fetch-linear-story.js` ← **DEV AGENTS USE THIS**
+**Purpose:** Fetch a Linear ticket description at dev spawn time — the Linear-first story read path
+
+**Usage:**
+```bash
+node scripts/ops/fetch-linear-story.js CRU-123
+```
+
+**What it does:**
+1. Accepts a Linear issue identifier (e.g. `CRU-123`)
+2. Fetches the full ticket description via Linear GraphQL API
+3. Prints story content to stdout
+4. Dev agents pipe this output into their context at the start of every session
+
+**This replaces reading `_bmad-output/` story files.** Linear is the source of truth.
 
 ### `scripts/sync-bmad-to-github.js`
 **Purpose:** Push BMAD artifacts to Prism GitHub repo
